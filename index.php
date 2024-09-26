@@ -17,19 +17,19 @@ $action = !empty($urlSegments[1]) ? $urlSegments[1] : 'index';
 switch ($controllerSegment) {
     case 'home':
         $controller = new HomeController();
-        $controller->index();
+        $controller->{$action}();
         break;
     case 'articles':
         $controller = new ArticleController();
-        $controller->index();
+        $controller->{$action}();
         break;
     case 'edit':
         $controller = new ArticleController();
-        $controller->edit();
+        $controller->{$action}();
         break;
     case 'delete':
         $controller = new ArticleController();
-        $controller->delete();
+        $controller->{$action}();
         break;
     default:
         header('HTTP/1.0 404 Not Found');
