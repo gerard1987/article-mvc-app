@@ -44,4 +44,19 @@ class Controller
             echo "View $view file not found: ";
         }
     }
+
+    protected function sanitizePostData()
+    {
+        if (!empty($_POST)) {
+            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+            return [
+                'id' => htmlspecialchars($id),
+                'name' => htmlspecialchars($name),
+                'price' => htmlspecialchars($price)
+            ];
+        }
+    }
 }

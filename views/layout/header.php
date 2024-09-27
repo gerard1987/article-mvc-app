@@ -9,8 +9,8 @@
     <!-- Navigation Bar -->
     <nav>
         <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/articles">Articles</a></li>
+            <li><a href="/home/index">Home</a></li>
+            <li><a href="/articles/index">Articles</a></li>
         </ul>
     </nav>
 </header>
