@@ -10,6 +10,26 @@ class Article
         $this->price = $price;
     }
 
+    public static function add($data) 
+    {
+        $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Prepare the values
+        $name = $data['name'];
+        $price = floatval($data['price']);
+
+        // Prepare the SQL INSERT statement
+        $stmt = $db->prepare('INSERT INTO articles (name, price) VALUES (:name, :price)');
+
+        // Bind the parameters
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':price', $price, PDO::PARAM_STR); // Use PARAM_STR for floats as well
+
+        // Execute the statement
+        return $stmt->execute();
+    }   
+
     public static function all() 
     {
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');

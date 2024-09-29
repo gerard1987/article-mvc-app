@@ -15,7 +15,8 @@ $action = !empty($urlSegments[1]) ? $urlSegments[1] : 'index';
 $param = !empty($urlSegments[2]) ? $urlSegments[2] : null;
 
 // Controleer welke controller en methode moet worden uitgevoerd
-switch ($controllerSegment) {
+switch ($controllerSegment) 
+{
     case 'home':
         $controller = new HomeController();
         $controller->{$action}($param);
