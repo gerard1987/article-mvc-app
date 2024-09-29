@@ -14,7 +14,7 @@ class HomeController extends Controller
             'content' => 'Welcome to the Home Page'
         ];
 
-        $viewData = new View($data);
+        $viewData = new ViewData($data);
         
         $this->renderView('index', $viewData);
     }

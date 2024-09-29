@@ -2,73 +2,78 @@
 
 class ArticleController extends Controller
 {
+    private $viewData;
+
     public function __construct()
     {
-        parent::__construct();    
+        parent::__construct();
+
+        $this->viewData = [
+            'title' => 'articles',
+            'content' => null,
+            'message' => null
+        ];
     }
 
     public function index() 
     {
         $articles = Article::all();
 
-        $data = [
-            'title' => 'articles',
-            'content' => $articles
-        ];
-
-        $viewData = new View($data);
+        $this->viewData['content'] = $articles;
+        $viewData = new ViewData($this->viewData);
         
         $this->renderView('index', $viewData);
     }
 
-    public function create() 
+    public function add() 
     {
-        $articles = Article::all();
+        $this->viewData['title'] = 'Add article';
 
-        $data = [
-            'title' => 'Edit article',
-            'content' => $articles
-        ];
-
-        $viewData = new View($data);
+        $viewData = new ViewData($this->viewData);
         
-        $this->renderView('edit', $viewData);
+        $this->renderView('add', $viewData);
     }  
 
     public function edit($id) 
     {
+        $this->viewData['title'] = 'Edit article';
+
         if (!empty($_POST))
         {
-            $data = $this->sanitizePostData();
+            $data = $this->sanitizePostData($_POST);
             $article = Article::edit($data);
+
+            $this->viewData['content'] = $article;
+            $this->viewData['message'] = "Article edited";
+
+            $this->redirect("/articles/edit/" . $article->id);
         }
         else
         {
-            $article = Article::getById($id)[0] ?? null;
+            $this->viewData['content'] = Article::getById($id) ?? null;
         }
 
-        $data = [
-            'title' => 'Edit article',
-            'content' => $article
-        ];
+        $viewData = new ViewData($this->viewData);
 
-        $viewData = new View($data);
         
         $this->renderView('edit', $viewData);
     } 
 
-    public function delete() 
+    public function delete($id) 
     {
-        $articles = Article::all();
+        if (!empty($id))
+        {
+            $id = (int)$this->sanitizePostData($id)[0] ?? throw new Exception("Couldn't sanitize id");
 
-        $data = [
-            'title' => 'Edit article',
-            'content' => $articles
-        ];
+            $deleted = Article::delete($id);
+            if (!$deleted){
+                throw new Exception("Could not delete article");
+            }
 
-        $viewData = new View($data);
-        
-        $this->renderView('edit', $viewData);
+            $this->viewData['message'] = 'Article deleted';
+        }
+
+        return $this->redirect('/articles');
     }  
 
 }

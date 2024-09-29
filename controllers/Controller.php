@@ -20,43 +20,72 @@ class Controller
         require_once($this->root . DIRECTORY_SEPARATOR . $this->viewsFolder . DIRECTORY_SEPARATOR . $this->layoutsFolder . DIRECTORY_SEPARATOR . 'header.php');   
     }
 
-    private function renderBody($filePath)
-    {
-        require_once($filePath);
-    }
-
-    protected function renderView($view, View $viewData)
+    protected function renderView($view, ViewData $viewData)
     {
         $controllerFolder = strtolower(str_replace('Controller', '', get_class($this)));
         $fullPath = $this->root . DIRECTORY_SEPARATOR . $this->viewsFolder . DIRECTORY_SEPARATOR . $this->pagesFolder  . DIRECTORY_SEPARATOR . $controllerFolder . DIRECTORY_SEPARATOR . $view . '.php';
 
         if (file_exists($fullPath)) 
         {
-            extract($viewData->getViewData());  // Extract data variables for use in the view
-
             $this->renderHeader();
-            // $this->renderBody($fullPath);
 
             $viewData->render($fullPath);
         }
         else 
         {
             echo "View $view file not found: ";
+            die;
         }
     }
 
-    protected function sanitizePostData()
+    protected function sanitizePostData($data)
     {
-        if (!empty($_POST)) {
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-            $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $sanitizedData = array();
 
-            return [
-                'id' => htmlspecialchars($id),
-                'name' => htmlspecialchars($name),
-                'price' => htmlspecialchars($price)
-            ];
+        if (!empty($data)) 
+        {
+            // Ensure $data is an array
+            $data = !is_array($data) ? array($data) : $data;
+    
+            foreach ($data as $k => $v) 
+            {
+                if (ctype_digit($v)) 
+                {
+                    // Cast to integer and sanitize
+                    $sanitizedData[$k] = filter_var($v, FILTER_SANITIZE_NUMBER_INT);
+                    $sanitizedData[$k] = (int) $sanitizedData[$k];
+                }
+                elseif (is_numeric($v) && strpos($v, '.') !== false) 
+                {
+                    // Cast to float and sanitize
+                    $sanitizedData[$k] = filter_var($v, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                    $sanitizedData[$k] = (float) $sanitizedData[$k];
+                }
+                elseif (is_string($v)) 
+                {
+                    $sanitizedData[$k] = filter_var($v, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                } 
+                elseif (is_array($v)) 
+                {
+                    // Recursively sanitize array values
+                    $sanitizedData[$k] = $this->sanitizePostData($v);
+                } 
+                else 
+                {
+                    $sanitizedData[$k] = $v;
+                }
+            }
         }
+
+    
+        return $sanitizedData;
+    }
+
+    protected function redirect($url)
+    {
+        $sanitized_url = filter_var($url, FILTER_SANITIZE_URL);
+
+        header("Location: $sanitized_url");
+        exit();    
     }
 }

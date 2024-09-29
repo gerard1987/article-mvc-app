@@ -10,7 +10,7 @@
 
         <!-- Article Price -->
         <label for="price">Price:</label>
-        <input type="text" id="price" name="price" value="<?= $content->price ?>" required pattern="^\d+(\.\d{1,2})?$" title="Voer een geldige prijs in">
+        <input type="number" id="price" name="price" step="0.01" placeholder="0.00" value="<?= $content->price ?>" required pattern="^\d+(\.\d{1,2})?$" title="Voer een geldige prijs in">
         <br><br>
         
         <input type="submit" value="Bijwerken">
@@ -18,3 +18,5 @@
 <?php else: ?>
     No article selected    
 <?php endif; ?>
+
+<p>message : <strong><?= $message; ?></strong></p>

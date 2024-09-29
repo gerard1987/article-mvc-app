@@ -1,6 +1,6 @@
 <?php
 
-class View
+class ViewData
 {
     private $data;
 
@@ -18,6 +18,9 @@ class View
     {
         extract($this->data);
 
-        require_once($filePath); // Now, all extracted variables are available
+        if (file_exists($filePath)){
+            require_once($filePath);
+            die;
+        }
     }
 }

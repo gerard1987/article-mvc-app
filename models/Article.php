@@ -12,7 +12,6 @@ class Article
 
     public static function all() 
     {
-        $list = [];
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
        
         $req = $db->query('SELECT * FROM articles');
@@ -23,15 +22,16 @@ class Article
 
     public static function getById($id) 
     {
-        $list = [];
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
         
         // Prepare query
         $stmt = $db->prepare('SELECT * FROM articles WHERE id = :id');
+
+        // Bind parameters
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute(); 
     
-        $article = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $article = $stmt->fetch(PDO::FETCH_OBJ);
 
         return $article;
     }    
@@ -40,9 +40,9 @@ class Article
     {
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
     
-        $id = $data['id'];
+        $id = intval($data['id']);
         $name = $data['name'];
-        $price = $data['price'];
+        $price = floatval($data['price']);
     
         // Prepare query
         $stmt = $db->prepare('UPDATE articles SET name = :name, price = :price WHERE id = :id');
@@ -52,19 +52,24 @@ class Article
         $stmt->bindParam(':name', $name, PDO::PARAM_STR); // Bind name
         $stmt->bindParam(':price', $price, PDO::PARAM_STR); // Bind price
     
-        return $stmt->execute();
+        $succes = $stmt->execute();
+        if (!$succes){
+            throw new Exception("Couldnt update article");
+        }
+
+        return self::getById($id) ?? null;
     }
     
-    public static function delete() 
+    public static function delete(int $id) 
     {
-        $list = [];
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
-       
-        // query the database for all articles
-        $req = $db->query('SELECT * FROM articles');
-        $articles = $req->fetchAll(PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        // Prepare query
+        $stmt = $db->prepare('DELETE FROM articles WHERE id = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-        return $articles;
+        return $stmt->execute();
     }    
     
 }

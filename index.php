@@ -2,7 +2,7 @@
 
 // Laad de vereiste bestanden in
 require_once 'models/Article.php';
-require_once 'models/View.php';
+require_once 'models/ViewData.php';
 require_once 'controllers/Controller.php';
 require_once 'controllers/HomeController.php';
 require_once 'controllers/ArticleController.php';
