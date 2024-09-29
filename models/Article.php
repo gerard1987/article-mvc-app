@@ -10,7 +10,7 @@ class Article
         $this->price = $price;
     }
 
-    public static function add($data) 
+    public static function create($data) 
     {
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -18,5 +18,3 @@
 <?php else: ?>
     No article selected    
 <?php endif; ?>
-
-<p>message : <strong><?= $message; ?></strong></p>

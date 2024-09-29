@@ -1,6 +1,6 @@
 <h1><?= ucfirst($title) ?></h1>
 
-<p><a href="/articles/add">Add a article</a></p>
+<p><a href="/articles/create">Add a article</a></p>
 
 <table>
     <tr>

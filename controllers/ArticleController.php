@@ -25,14 +25,14 @@ class ArticleController extends Controller
         $this->renderView('index', $viewData);
     }
 
-    public function add() 
+    public function create() 
     {
         $this->viewData['title'] = 'Add article';
 
         if (!empty($_POST))
         {
             $data = $this->sanitizePostData($_POST);
-            $article = Article::add($data);
+            $article = Article::create($data);
 
             $this->viewData['content'] = $article;
             $this->viewData['message'] = "Article added";
@@ -42,7 +42,7 @@ class ArticleController extends Controller
 
         $viewData = new ViewData($this->viewData);
         
-        $this->renderView('add', $viewData);
+        $this->renderView('create', $viewData);
     }  
 
     public function edit($id) 

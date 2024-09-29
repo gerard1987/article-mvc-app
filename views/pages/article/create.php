@@ -1,6 +1,6 @@
 <h1><?= ucfirst($title) ?></h1>
 
-<form action="/articles/add" method="post">
+<form action="/articles/create" method="post">
     <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="" placeholder="Apple" required>
     <br><br>
