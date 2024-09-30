@@ -1,0 +1,16 @@
+INSERT INTO `articles` (`name`, `price`) VALUES
+('Wireless Mouse', 19.99),
+('Bluetooth Headphones', 49.99),
+('USB-C Cable', 9.99),
+('Laptop Stand', 29.99),
+('Mechanical Keyboard', 89.50),
+('Portable Charger', 25.99),
+('Smartwatch', 199.99),
+('External Hard Drive', 79.99),
+('HDMI Cable', 12.50),
+('Gaming Chair', 149.99),
+('Webcam', 39.99),
+('Noise Cancelling Headphones', 129.99),
+('Wireless Earbuds', 59.99),
+('LED Desk Lamp', 35.00),
+('Smartphone Case', 14.99);

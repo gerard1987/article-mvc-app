@@ -11,5 +11,3 @@
     
     <input type="submit" value="Bijwerken">
 </form>
-
-<p><?= $_SESSION['message'] ?? null; ?></p>
