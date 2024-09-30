@@ -43,6 +43,7 @@ class Article
     public static function getById($id) 
     {
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         // Prepare query
         $stmt = $db->prepare('SELECT * FROM articles WHERE id = :id');
@@ -59,6 +60,7 @@ class Article
     public static function edit($data) 
     {
         $db = new PDO('mysql:host=localhost;dbname=article-app;charset=utf8', 'root', '');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
         $id = intval($data['id']);
         $name = $data['name'];

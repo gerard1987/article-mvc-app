@@ -21,4 +21,4 @@
     <?php endforeach; ?>
 </table>
 
-<p><strong><?= $message; ?></strong></p>
+<p><?= $_SESSION['message'] ?? null; ?></p>

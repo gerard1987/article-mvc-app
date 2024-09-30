@@ -3,16 +3,13 @@
 class Controller
 {
     protected $root;
-    private $viewsFolder;
-    private $layoutsFolder;
-    private $pagesFolder;
+    private $viewsFolder = 'views';
+    private $layoutsFolder = 'layout';
+    private $pagesFolder = 'pages';
 
     public function __construct()
     {
         $this->root = dirname(__DIR__);
-        $this->viewsFolder = 'views';
-        $this->layoutsFolder = 'layout';
-        $this->pagesFolder = 'pages';
     }
 
     private function renderHeader()

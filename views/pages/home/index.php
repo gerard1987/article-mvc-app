@@ -1,3 +1,3 @@
-<?php 
+<h1><?= ucfirst($title) ?></h1>
 
-echo $title;
+<p><?= $content ?? null; ?></p>

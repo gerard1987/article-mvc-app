@@ -18,3 +18,5 @@
 <?php else: ?>
     No article selected    
 <?php endif; ?>
+
+<p><?= $_SESSION['message'] ?? null; ?></p>
